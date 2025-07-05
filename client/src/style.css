@@ -1,0 +1,23 @@
+:root {
+  --gray-500: #808080;
+
+  --orange-500: #ffa500;
+  --orange-300: #f8b538;
+  --orange-200: #f8cf85;
+
+  --white: #fff;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: "Roboto", sans-serif;
+}
+
+button {
+  cursor: pointer;
+}
