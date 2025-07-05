@@ -1,30 +1,22 @@
 <template>
   <section>
     <div class="current-step-conteiner">
-      <span>Etapa </span><span class="current-step">1</span><span> de 4</span>
+      <span>Etapa </span><span class="current-step">3</span><span> de 4</span>
     </div>
 
-    <h1 class="form-title">Seja bem vindo(a)</h1>
+    <h1 class="form-title">Senha de acesso</h1>
 
     <form class="form-container" @submit.prevent="handleSubmit">
       <div class="input-control">
-        <label for="email">Endereço de e-mail</label>
-        <input v-model="email" type="email" id="email" required />
-      </div>
-
-      <div class="legal-entities-container">
-        <div class="entity-container">
-          <input v-model="entity" type="radio" id="natural-person" name="entity">
-          <label for="natural-person">Pessoa física</label>
-        </div>
-
-        <div class="entity-container">
-          <input v-model="entity" type="radio" id="legal-person" name="entity">
-          <label for="legal-person">Pessoa jurídica</label>
-        </div>
+        <label for="email">Sua senha</label>
+        <input v-model="password" type="password" id="password" required />
       </div>
 
       <div class="form-actions">
+        <button type="button" @click="goBack">
+          Voltar
+        </button>
+
         <button type="submit">
           Continuar
         </button>
@@ -36,8 +28,7 @@
 <script setup>
   import { ref } from 'vue';
 
-  const email = ref("")
-  const entity = ref("")
+  const password = ref("")
 
   const props = defineProps({
     formData: {
@@ -53,7 +44,7 @@
   }
 
   function handleSubmit() {
-    console.log(email.value)
+    console.log(password.value)
     // VALIDAR FORMULÁRIO
     // SE TUDO TIVER OK, IR PARA O PROXIMO PASSO
   }
@@ -102,6 +93,13 @@
   .entity-container input {
     margin-right: 0.25rem;
     cursor: pointer;
+  }
+
+  .form-actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
   }
 
   .form-actions button {

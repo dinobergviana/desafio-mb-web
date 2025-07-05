@@ -1,30 +1,37 @@
 <template>
   <section>
     <div class="current-step-conteiner">
-      <span>Etapa </span><span class="current-step">1</span><span> de 4</span>
+      <span>Etapa </span><span class="current-step">2</span><span> de 4</span>
     </div>
 
-    <h1 class="form-title">Seja bem vindo(a)</h1>
+    <h1 class="form-title">Pessoa Jurídica</h1>
 
     <form class="form-container" @submit.prevent="handleSubmit">
       <div class="input-control">
-        <label for="email">Endereço de e-mail</label>
-        <input v-model="email" type="email" id="email" required />
+        <label for="name">Razão social</label>
+        <input v-model="legalName" type="legal-name" id="legal-name" required />
       </div>
 
-      <div class="legal-entities-container">
-        <div class="entity-container">
-          <input v-model="entity" type="radio" id="natural-person" name="entity">
-          <label for="natural-person">Pessoa física</label>
-        </div>
+      <div class="input-control">
+        <label for="name">CNPJ</label>
+        <input v-model="cnpj" type="cnpj" id="cnpj" required />
+      </div>
 
-        <div class="entity-container">
-          <input v-model="entity" type="radio" id="legal-person" name="entity">
-          <label for="legal-person">Pessoa jurídica</label>
-        </div>
+      <div class="input-control">
+        <label for="name">Data de abertura</label>
+        <input v-model="openingDate" type="opening-date" id="opening-date" required />
+      </div>
+
+      <div class="input-control">
+        <label for="name">Telefone</label>
+        <input v-model="phone" type="phone" id="phone" required />
       </div>
 
       <div class="form-actions">
+        <button type="button" @click="goBack">
+          Voltar
+        </button>
+
         <button type="submit">
           Continuar
         </button>
@@ -36,8 +43,10 @@
 <script setup>
   import { ref } from 'vue';
 
-  const email = ref("")
-  const entity = ref("")
+  const legalName = ref("")
+  const cnpj = ref("")
+  const openingDate = ref("")
+  const phone = ref("")
 
   const props = defineProps({
     formData: {
@@ -49,6 +58,10 @@
   const emit = defineEmits(['next'])
 
   function nextStep() {
+    //
+  }
+
+  function goBack() {
     //
   }
 
@@ -102,6 +115,13 @@
   .entity-container input {
     margin-right: 0.25rem;
     cursor: pointer;
+  }
+
+  .form-actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
   }
 
   .form-actions button {
