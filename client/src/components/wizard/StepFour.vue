@@ -84,7 +84,6 @@
   }
 
   async function handleSubmit() {
-    console.log(props.formData)
     const {
       email,
       phone,
@@ -115,30 +114,10 @@
         body: JSON.stringify(data)
       })
 
-      const responseBody = await response.json()
-
       emitNextStep()
-
-      resetFormData()
     } catch (error) {
       console.log(error)
     }
-  }
-
-  function resetFormData() {
-    setTimeout(() => {
-      props.formData.currentStep = 0
-      props.formData.email = ""
-      props.formData.entity = 1
-      props.formData.name = ""
-      props.formData.cpf = ""
-      props.formData.birthDate = ""
-      props.formData.legalName = ""
-      props.formData.cnpj = ""
-      props.formData.openingDate = ""
-      props.formData.phone = ""
-      props.formData.password = ""
-    }, 3000)
   }
 
   function handleSeePassword() {

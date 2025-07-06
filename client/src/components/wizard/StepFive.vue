@@ -19,7 +19,22 @@
   const emit = defineEmits(["next-step"])
 
   function emitGoToFirstStep() {
+    resetFormData()
     emit("next-step", 0)
+  }
+
+  function resetFormData() {
+    props.formData.currentStep = 0
+    props.formData.email = ""
+    props.formData.entity = 1
+    props.formData.name = ""
+    props.formData.cpf = ""
+    props.formData.birthDate = ""
+    props.formData.legalName = ""
+    props.formData.cnpj = ""
+    props.formData.openingDate = ""
+    props.formData.phone = ""
+    props.formData.password = ""
   }
 </script>
 
