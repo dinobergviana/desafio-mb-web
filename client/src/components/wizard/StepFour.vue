@@ -50,6 +50,10 @@
           Cadastrar
         </button>
       </div>
+
+      <div v-if="requestFailed">
+        <span class="error-message">Erro ao tentar salvar os dados. Verifique se os dados estão corretos ou contate o suporte.</span>
+      </div>
     </form>
   </section>
 </template>
@@ -67,6 +71,7 @@
   const emit = defineEmits(["previous-step", "next-step"])
 
   const seePassword = ref(false)
+  const requestFailed = ref(false)
 
   const isLegalPerson = computed(() => {
     return props.formData.entity === 2
@@ -114,9 +119,17 @@
         body: JSON.stringify(data)
       })
 
+      const responseBody = await response.json()
+
+      if (responseBody.statusCode === 500 || responseBody.statusCode === 400) {
+        throw new Error()
+      }
+
+      requestFailed.value = true
       emitNextStep()
     } catch (error) {
       console.log(error)
+      requestFailed.value = true
     }
   }
 

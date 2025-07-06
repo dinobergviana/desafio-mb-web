@@ -9,8 +9,8 @@
     <Form class="form-container" @submit="handleSaveDate" :validation-schema="schema">
       <div class="input-control">
         <label for="name">{{ isLegalPerson ? "Razão social" : "Nome" }}</label>
-        <Field v-model="legalName" v-if="isLegalPerson" id="legal-name" name="legalName" />
-        <Field v-model="name" v-else id="name" name="name" />
+        <Field v-model="legalName" v-if="isLegalPerson" id="legal-name" name="legalName" placeholder="Conforme documento oficial" />
+        <Field v-model="name" v-else id="name" name="name" placeholder="Conforme documento oficial" />
 
         <div v-if="isLegalPerson" class="error-message">
           <ErrorMessage name="legalName" />
@@ -23,8 +23,8 @@
 
       <div class="input-control">
         <label for="name">{{ isLegalPerson ? "CNPJ" : "CPF" }}</label>
-        <Field v-model="cnpj" v-if="isLegalPerson" id="cnpj" name="cnpj" />
-        <Field v-model="cpf" v-else id="cpf" name="cpf" />
+        <Field v-model="cnpj" v-if="isLegalPerson" id="cnpj" name="cnpj" placeholder="Apenas números ou com pontuação" />
+        <Field v-model="cpf" v-else id="cpf" name="cpf" placeholder="Apenas números ou com pontuação" />
       
         <div v-if="isLegalPerson" class="error-message">
           <ErrorMessage name="cnpj" />
@@ -37,8 +37,8 @@
 
       <div class="input-control">
         <label for="name">{{ isLegalPerson ? "Data de abertura" : "Data de nascimento" }}</label>
-        <Field v-model="openingDate" v-if="isLegalPerson" id="opening-date" name="openingDate" />
-        <Field v-model="birthDate" v-else id="birth-date" name="birthDate" />
+        <Field v-model="openingDate" v-if="isLegalPerson" id="opening-date" name="openingDate" placeholder="##/##/####" />
+        <Field v-model="birthDate" v-else id="birth-date" name="birthDate" placeholder="##/##/####" />
       
         <div v-if="isLegalPerson" class="error-message">
           <ErrorMessage name="openingDate" />
@@ -88,12 +88,12 @@
   const cnpjRegex = /^\d{2}\.\d{3}\.\d{3}\/\d{4}\-\d{2}$|^\d{14}$/
 
   const schema = yup.object({
-    name: props.formData.entity === 1 ? yup.string().required("Campo obrigatório") : false,
-    cpf: props.formData.entity === 1 ? yup.string().required("Campo obrigatório").matches(cpfRegex, "CPF inválido") : false,
-    birthDate: props.formData.entity === 1 ? yup.string().required("Campo obrigatório").test("valid-date", "Data inválida", value => isValidDate(value)) : false,
-    legalName: props.formData.entity === 2 ? yup.string().required("Campo obrigatório") : false,
-    cnpj: props.formData.entity === 2 ? yup.string().required("Campo obrigatório").matches(cnpjRegex, "CNPJ inválido") : false,
-    openingDate: props.formData.entity === 2 ? yup.string().required("Campo obrigatório").test("valid-date", "Data inválida", value => isValidDate(value)) : false,
+    name: !props.formData.isLegalPerson ? yup.string().required("Campo obrigatório") : false,
+    cpf: !props.formData.isLegalPerson ? yup.string().required("Campo obrigatório").matches(cpfRegex, "CPF inválido") : false,
+    birthDate: !props.formData.isLegalPerson ? yup.string().required("Campo obrigatório").test("valid-date", "Data inválida. Ex. de data válida: 20/01/2000", value => isValidDate(value)) : false,
+    legalName: props.formData.isLegalPerson ? yup.string().required("Campo obrigatório") : false,
+    cnpj: props.formData.isLegalPerson ? yup.string().required("Campo obrigatório").matches(cnpjRegex, "CNPJ inválido") : false,
+    openingDate: props.formData.isLegalPerson ? yup.string().required("Campo obrigatório").test("valid-date", "Data inválida", value => isValidDate(value)) : false,
     phone: yup.string().required("Campo obrigatório").test("valid-phone", "Telefone inválido", value => validatePhone(value))
   })
 
@@ -108,7 +108,7 @@
   const phone = ref("")
 
   const isLegalPerson = computed(() => {
-    return props.formData.entity === 2
+    return props.formData.isLegalPerson
   })
 
   function isValidDate(value) {

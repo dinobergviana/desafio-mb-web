@@ -66,12 +66,15 @@
   function handleSaveData() {
     props.formData.email = email.value
     props.formData.entity = entity.value
+
+    props.formData.isLegalPerson = entity.value === 2 ? true : false
+
     emitNextStep()
   }
 
   onMounted(() => {
     email.value = props.formData.email
-    entity.value = props.formData.entity || 1
+    entity.value = props.formData.isLegalPerson ? 2 : 1
   })
 </script>
 

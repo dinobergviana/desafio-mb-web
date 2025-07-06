@@ -31,7 +31,7 @@
   const formData = reactive({
     currentStep: 0,
     email: "",
-    entity: "",
+    isLegalPerson: false,
     name: "",
     cpf: "",
     birthDate: "",
