@@ -7,56 +7,66 @@
     <h1 class="form-title">{{ isLegalPerson ? "Pessoa jurídica" : "Pessoa física" }}</h1>
 
     <Form class="form-container" @submit="handleSaveData" :validation-schema="schema">
-      <div class="input-control">
-        <label for="name">{{ isLegalPerson ? "Razão social" : "Nome" }}</label>
-        <Field v-model="legalName" v-if="isLegalPerson" id="legal-name" name="legalName" placeholder="Conforme documento oficial" />
-        <Field v-model="name" v-else id="name" name="name" placeholder="Conforme documento oficial" />
+      <TextInput 
+        v-model="legalName" 
+        v-if="isLegalPerson"
+        label="Razão social"
+        id="legal-name" 
+        name="legalName" 
+        placeholder="Conforme documento oficial" 
+      />
 
-        <div v-if="isLegalPerson" class="error-message">
-          <ErrorMessage name="legalName" />
-        </div>
+      <TextInput
+        v-model="name"
+        v-else
+        label="Nome"
+        id="name"
+        name="name" 
+        placeholder="Conforme documento oficial"
+      />
 
-        <div v-else class="error-message">
-          <ErrorMessage name="name" />
-        </div>
-      </div>
+      <TextInput
+        v-model="cnpj" 
+        v-if="isLegalPerson"
+        label="CNPJ"
+        id="cnpj" 
+        name="cnpj" 
+        placeholder="Apenas números ou com pontuação"
+      />
 
-      <div class="input-control">
-        <label for="name">{{ isLegalPerson ? "CNPJ" : "CPF" }}</label>
-        <Field v-model="cnpj" v-if="isLegalPerson" id="cnpj" name="cnpj" placeholder="Apenas números ou com pontuação" />
-        <Field v-model="cpf" v-else id="cpf" name="cpf" placeholder="Apenas números ou com pontuação" />
-      
-        <div v-if="isLegalPerson" class="error-message">
-          <ErrorMessage name="cnpj" />
-        </div>
+      <TextInput
+        v-model="cpf"
+        v-else
+        label="CPF"
+        id="cpf"
+        name="cpf"
+        placeholder="Apenas números ou com pontuação"
+      />
 
-        <div v-else class="error-message">
-          <ErrorMessage name="cpf" />
-        </div>
-      </div>
+      <TextInput
+        v-model="openingDate"
+        v-if="isLegalPerson"
+        label="Data de abertura"
+        id="opening-date"
+        name="openingDate"
+        placeholder="##/##/####" 
+      />
 
-      <div class="input-control">
-        <label for="name">{{ isLegalPerson ? "Data de abertura" : "Data de nascimento" }}</label>
-        <Field v-model="openingDate" v-if="isLegalPerson" id="opening-date" name="openingDate" placeholder="##/##/####" />
-        <Field v-model="birthDate" v-else id="birth-date" name="birthDate" placeholder="##/##/####" />
-      
-        <div v-if="isLegalPerson" class="error-message">
-          <ErrorMessage name="openingDate" />
-        </div>
+      <TextInput
+        v-model="birthDate"
+        v-else
+        label="Data de nascimento"
+        id="birth-date"
+        name="birthDate"
+        placeholder="##/##/####"
+      />
 
-        <div v-else class="error-message">
-          <ErrorMessage name="birthDate" />
-        </div>
-      </div>
-
-      <div class="input-control">
-        <label for="name">Telefone</label>
-        <Field v-model="phone" id="phone" name="phone" />
-        
-        <div class="error-message">
-          <ErrorMessage name="phone" />
-        </div>
-      </div>
+      <TextInput
+        v-model="phone"
+        label="Telefone"
+        id="phone"
+        name="phone"
+      />
 
       <div class="actions">
         <button class="btn-secondary" type="button" @click="handlePreviousStep">
@@ -73,11 +83,13 @@
 
 <script setup>
   import { onMounted } from "vue"
-  import { Form, Field, ErrorMessage } from "vee-validate"
+  import { Form } from "vee-validate"
   
   import stepTwoSchema from "./form-schemas/step-two-schema"
 
   import { useStepTwoForm } from "./composables/useStepTwoForm.js"
+
+  import TextInput from "../TextInput.vue"
 
   const props = defineProps({
     formData: {
