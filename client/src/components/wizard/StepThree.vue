@@ -10,14 +10,14 @@
       <div class="input-control">
         <label for="email">Sua senha</label>
         <Field v-model="password" :type="seePassword ? 'text' : 'password'" id="password" name="password" />
-        <button type="button" class="see-password" @click="handleSeePassword">visualizar</button>
+        <button type="button" class="see-password" @click="handleSeePassword">{{ seePassword ? 'esconder' : 'visualizar' }}</button>
 
         <div class="error-message">
           <ErrorMessage name="password" />
         </div>
       </div>
 
-      <div class="form-actions">
+      <div class="actions">
         <button class="btn-secondary" type="button" @click="emitPreviousStep">
           Voltar
         </button>
@@ -89,7 +89,7 @@
     margin-bottom: 1rem;
   }
 
-  .form-actions {
+  .actions {
     display: flex;
     align-items: center;
     justify-content: space-between;

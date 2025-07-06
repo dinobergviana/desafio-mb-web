@@ -27,7 +27,7 @@
         </div>
       </div>
 
-      <div class="form-actions">
+      <div class="actions">
         <button class="btn-primary" type="submit">
           Continuar
         </button>

@@ -38,10 +38,10 @@
       <div class="input-control">
         <label for="email">Senha</label>
         <input :value="formData.password" :type="seePassword ? 'text' : 'password'" id="password" disabled />
-        <button type="button" class="see-password" @click="handleSeePassword">visualizar</button>
+        <button type="button" class="see-password" @click="handleSeePassword">{{ seePassword ? 'esconder' : 'visualizar' }}</button>
       </div>
 
-      <div class="form-actions">
+      <div class="actions">
         <button class="btn-secondary" type="button" @click="emitPreviousStep">
           Voltar
         </button>
@@ -64,7 +64,7 @@
     }
   })
 
-  const emit = defineEmits(["previous-step"])
+  const emit = defineEmits(["previous-step", "next-step"])
 
   const seePassword = ref(false)
 
@@ -77,14 +77,59 @@
     props.formData.currentStep -= 1
   }
 
-  function handleSubmit() {
-    // ENVIAR INFOS PARA O BACK, APOS A REQUISIÇÃO, LIMPAR O OBJETO formData
-    // IR PARA TELA DE SUCESSO COM OPÇÃO DE VOLTAR PARA O INICIO
 
+  function emitNextStep() {
+    emit("next-step", props.formData.currentStep + 1)
+    props.formData.currentStep += 1
+  }
+
+  async function handleSubmit() {
+    console.log(props.formData)
+    const {
+      email,
+      phone,
+      password,
+      legalName,
+      cnpj,
+      openingDate,
+      name,
+      cpf,
+      birthDate
+    } = props.formData
+
+    const data = {
+      email,
+      phone,
+      password,
+      ...(isLegalPerson.value
+        ? { legalName, cnpj, openingDate }
+        : { name, cpf, birthDate })
+    }
+
+    try {
+      const response = await fetch("http://localhost:3000/registration", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(data)
+      })
+
+      const responseBody = await response.json()
+
+      emitNextStep()
+
+      resetFormData()
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  function resetFormData() {
     setTimeout(() => {
       props.formData.currentStep = 0
       props.formData.email = ""
-      props.formData.entity = ""
+      props.formData.entity = 1
       props.formData.name = ""
       props.formData.cpf = ""
       props.formData.birthDate = ""
@@ -114,7 +159,7 @@
     margin-bottom: 1rem;
   }
 
-  .form-actions {
+  .actions {
     display: flex;
     align-items: center;
     justify-content: space-between;

@@ -10,18 +10,20 @@
 </template>
 
 <script setup>
-  import { reactive, ref } from 'vue';
+  import { reactive, ref } from "vue";
   
-  import StepOne from './components/wizard/StepOne.vue'
-  import StepTwo from './components/wizard/StepTwo.vue'
-  import StepThree from './components/wizard/StepThree.vue'
-  import StepFour from './components/wizard/StepFour.vue'
+  import StepOne from "./components/wizard/StepOne.vue"
+  import StepTwo from "./components/wizard/StepTwo.vue"
+  import StepThree from "./components/wizard/StepThree.vue"
+  import StepFour from "./components/wizard/StepFour.vue"
+  import StepFive from "./components/wizard/StepFive.vue"
 
   const steps = [
     StepOne,
     StepTwo,
     StepThree,
-    StepFour
+    StepFour,
+    StepFive
   ]
 
   const currentStep = ref(0)

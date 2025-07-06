@@ -58,7 +58,7 @@
         </div>
       </div>
 
-      <div class="form-actions">
+      <div class="actions">
         <button class="btn-secondary" type="button" @click="emitPreviousStep">
           Voltar
         </button>
@@ -210,7 +210,7 @@
     cursor: pointer;
   }
 
-  .form-actions {
+  .actions {
     display: flex;
     align-items: center;
     justify-content: space-between;
