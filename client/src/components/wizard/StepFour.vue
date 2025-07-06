@@ -59,7 +59,8 @@
 </template>
 
 <script setup>
-  import { computed, ref } from "vue"
+
+import { useStepFourForm } from './composables/useStepFourForm.js';
 
   const props = defineProps({
     formData: {
@@ -70,72 +71,14 @@
 
   const emit = defineEmits(["previous-step", "next-step"])
 
-  const seePassword = ref(false)
-  const requestFailed = ref(false)
-
-  const isLegalPerson = computed(() => {
-    return props.formData.entity === 2
-  })
-
-  function emitPreviousStep() {
-    emit("previous-step", props.formData.currentStep - 1)
-    props.formData.currentStep -= 1
-  }
-
-
-  function emitNextStep() {
-    emit("next-step", props.formData.currentStep + 1)
-    props.formData.currentStep += 1
-  }
-
-  async function handleSubmit() {
-    const {
-      email,
-      phone,
-      password,
-      legalName,
-      cnpj,
-      openingDate,
-      name,
-      cpf,
-      birthDate
-    } = props.formData
-
-    const data = {
-      email,
-      phone,
-      password,
-      ...(isLegalPerson.value
-        ? { legalName, cnpj, openingDate }
-        : { name, cpf, birthDate })
-    }
-
-    try {
-      const response = await fetch("http://localhost:3000/registration", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(data)
-      })
-
-      const responseBody = await response.json()
-
-      if (responseBody.statusCode === 500 || responseBody.statusCode === 400) {
-        throw new Error()
-      }
-
-      requestFailed.value = true
-      emitNextStep()
-    } catch (error) {
-      console.log(error)
-      requestFailed.value = true
-    }
-  }
-
-  function handleSeePassword() {
-    seePassword.value = !seePassword.value
-  }
+  const {
+    seePassword,
+    requestFailed,
+    isLegalPerson,
+    handleSeePassword,
+    handleSubmit,
+    emitPreviousStep
+  } = useStepFourForm(props.formData, emit)
 </script>
 
 <style scoped>

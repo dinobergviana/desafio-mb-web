@@ -37,13 +37,9 @@
 </template>
 
 <script setup>
-  import { onMounted, ref } from "vue"
-
+  import { onMounted } from "vue"
   import { Form, Field, ErrorMessage } from "vee-validate"
-  import * as yup from "yup"
-
-  const email = ref("")
-  const entity = ref(null)
+  import { useStepOneForm } from "./composables/useStepOneForm.js"
 
   const props = defineProps({
     formData: {
@@ -52,29 +48,18 @@
     }
   })
 
-  const schema = yup.object({
-    email: yup.string().required("E-mail é um campo obrigatório").email("Informe um e-mail válido"),
-  })
-
   const emit = defineEmits(["next-step"])
 
-  function emitNextStep() {
-    emit("next-step", props.formData.currentStep + 1)
-    props.formData.currentStep += 1
-  }
-
-  function handleSaveData() {
-    props.formData.email = email.value
-    props.formData.entity = entity.value
-
-    props.formData.isLegalPerson = entity.value === 2 ? true : false
-
-    emitNextStep()
-  }
+  const {
+    email,
+    entity,
+    schema,
+    handleSaveData,
+    initialize
+  } = useStepOneForm(props.formData, emit)
 
   onMounted(() => {
-    email.value = props.formData.email
-    entity.value = props.formData.isLegalPerson ? 2 : 1
+    initialize()
   })
 </script>
 

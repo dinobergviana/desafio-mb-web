@@ -10,7 +10,7 @@
       <div class="input-control">
         <label for="email">Sua senha</label>
         <Field v-model="password" :type="seePassword ? 'text' : 'password'" id="password" name="password" />
-        <button type="button" class="see-password" @click="handleSeePassword">{{ seePassword ? 'esconder' : 'visualizar' }}</button>
+        <button type="button" class="see-password" @click="toggleSeePassword">{{ seePassword ? 'esconder' : 'visualizar' }}</button>
 
         <div class="error-message">
           <ErrorMessage name="password" />
@@ -18,7 +18,7 @@
       </div>
 
       <div class="actions">
-        <button class="btn-secondary" type="button" @click="emitPreviousStep">
+        <button class="btn-secondary" type="button" @click="handlePreviousStep">
           Voltar
         </button>
 
@@ -31,10 +31,9 @@
 </template>
 
 <script setup>
-  import { onMounted, ref } from "vue"
-
+  import { onMounted } from "vue"
   import { Form, Field, ErrorMessage } from "vee-validate"
-  import * as yup from "yup"
+  import { useStepThreeForm } from './composables/useStepThreeForm.js'
 
   const props = defineProps({
     formData: {
@@ -42,37 +41,21 @@
       required: true
     }
   })
-
-  const schema = yup.object({
-    password: yup.string().required("Campo obrigatório").min(6, "A senha deve conter pelo menos 6 caracteres."),
-  })
   
   const emit = defineEmits(["previous-step", "next-step"])
   
-  const password = ref("")
-  const seePassword = ref(false)
-
-  function emitNextStep() {
-    emit("next-step", props.formData.currentStep + 1)
-    props.formData.currentStep += 1
-  }
-
-  function emitPreviousStep() {
-    emit("previous-step", props.formData.currentStep - 1)
-    props.formData.currentStep -= 1
-  }
-
-  function handleSaveData() {
-    props.formData.password = password.value
-    emitNextStep()
-  }
-
-  function handleSeePassword() {
-    seePassword.value = !seePassword.value
-  }
+  const {
+    password,
+    seePassword,
+    schema,
+    initialize,
+    handleSaveData,
+    handlePreviousStep,
+    toggleSeePassword
+  } = useStepThreeForm(props.formData, emit)
 
   onMounted(() => {
-    password.value = props.formData.password
+    initialize()
   })
 </script>
 
