@@ -19,55 +19,69 @@
         type="legal-name"
         id="legal-name"
         disabled
+        :show-error-message="false"
       />
 
       <TextInput
         v-model="formData.name"
         v-else
         label="Nome"
-        type="name"
         id="name"
         disabled
+        :show-error-message="false"
       />
 
       <TextInput
         v-model="formData.cnpj"
         v-if="isLegalPerson"
         label="CNPJ"
-        type="cnpj"
         id="cnpj"
         disabled
+        :show-error-message="false"
       />
 
-      <TextInput v-model="formData.cpf" v-else type="cpf" id="cpf" disabled />
+      <TextInput
+        v-model="formData.cpf"
+        v-else
+        label="CPF"
+        id="cpf"
+        disabled
+        :show-error-message="false"
+      />
 
       <TextInput
-        :value="formData.openingDate"
+        v-model="formData.openingDate"
         v-if="isLegalPerson"
-        type="opening-date"
+        LABEL="Data de abertura"
         id="opening-date"
         disabled
+        :show-error-message="false"
       />
 
       <TextInput
-        :value="formData.birthDate"
+        v-model="formData.birthDate"
         v-else
-        type="birth-date"
+        label="Data de nascimento"
         id="birth-date"
         disabled
+        :show-error-message="false"
       />
 
-      <TextInput :value="formData.phone" type="phone" id="phone" disabled />
-
       <TextInput
-        :value="formData.password"
-        :type="seePassword ? 'text' : 'password'"
+        v-model="formData.phone"
+        label="Telefone"
+        id="phone"
+        disabled
+        :show-error-message="false"
+      />
+
+      <PasswordInput
+        v-model="formData.password"
+        label="Senha"
+        name="password"
         id="password"
         disabled
       />
-      <button type="button" class="see-password" @click="handleSeePassword">
-        {{ seePassword ? "esconder" : "visualizar" }}
-      </button>
 
       <div class="actions">
         <button class="btn-secondary" type="button" @click="emitPreviousStep">
@@ -78,10 +92,9 @@
       </div>
 
       <div v-if="requestFailed">
-        <span class="error-message"
-          >Erro ao tentar salvar os dados. Verifique se os dados estão corretos
-          ou contate o suporte.</span
-        >
+        <span class="error-message">
+          Erro ao tentar salvar os dados. Verifique se os dados estão corretos ou contate o suporte.
+        </span>
       </div>
     </form>
   </section>
@@ -91,6 +104,7 @@
 import { useStepFourForm } from "./composables/useStepFourForm.js";
 
 import TextInput from "../TextInput.vue";
+import PasswordInput from "../PasswordInput.vue";
 
 const props = defineProps({
   formData: {
@@ -102,7 +116,6 @@ const props = defineProps({
 const emit = defineEmits(["previous-step", "next-step"]);
 
 const {
-  seePassword,
   requestFailed,
   isLegalPerson,
   handleSeePassword,

@@ -1,7 +1,6 @@
 import { ref, computed } from 'vue'
 
 export function useStepFourForm(formData, emit) {
-  const seePassword = ref(false)
   const requestFailed = ref(false)
 
   const isLegalPerson = computed(() => formData.isLegalPerson)
@@ -14,10 +13,6 @@ export function useStepFourForm(formData, emit) {
   function emitNextStep() {
     formData.currentStep += 1
     emit('next-step', formData.currentStep)
-  }
-
-  function handleSeePassword() {
-    seePassword.value = !seePassword.value
   }
 
   async function handleSubmit() {
@@ -66,10 +61,8 @@ export function useStepFourForm(formData, emit) {
   }
 
   return {
-    seePassword,
     requestFailed,
     isLegalPerson,
-    handleSeePassword,
     handleSubmit,
     emitPreviousStep
   }

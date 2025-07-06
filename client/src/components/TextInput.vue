@@ -13,7 +13,7 @@
       class="input"
     />
 
-    <div class="error-message">
+    <div v-if="showErrorMessage" class="error-message">
       <ErrorMessage :name="name" />
     </div>
   </div>
@@ -30,7 +30,8 @@ const props = defineProps({
   type: { type: String, default: 'text' },
   modelValue: [String, Number],
   id: { type: String, default: '' },
-  disabled: { type: Boolean, default: false }
+  disabled: { type: Boolean, default: false },
+  showErrorMessage: { type: Boolean, default: true }
 })
 
 const emit = defineEmits(['update:modelValue'])

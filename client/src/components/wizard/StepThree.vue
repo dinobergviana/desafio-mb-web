@@ -7,15 +7,12 @@
     <h1 class="form-title">Senha de acesso</h1>
 
     <Form class="form-container" @submit="handleSaveData" :validation-schema="schema">
-      <TextInput
+      <PasswordInput
         v-model="password"
-        :type="seePassword ? 'text' : 'password'"
-        label="Sua senha"
-        id="password"
+        label="Senha"
         name="password"
+        id="password"
       />
-
-      <button type="button" class="see-password" @click="toggleSeePassword">{{ seePassword ? 'esconder' : 'visualizar' }}</button>
 
       <div class="actions">
         <button class="btn-secondary" type="button" @click="handlePreviousStep">
@@ -32,10 +29,10 @@
 
 <script setup>
   import { onMounted } from "vue"
-  import { Form, Field, ErrorMessage } from "vee-validate"
+  import { Form } from "vee-validate"
   import { useStepThreeForm } from './composables/useStepThreeForm.js'
 
-  import TextInput from "../TextInput.vue"
+  import PasswordInput from "../PasswordInput.vue"
 
   const props = defineProps({
     formData: {
@@ -48,7 +45,6 @@
   
   const {
     password,
-    seePassword,
     schema,
     initialize,
     handleSaveData,
@@ -79,13 +75,5 @@
     align-items: center;
     justify-content: space-between;
     gap: 1rem;
-  }
-
-  .see-password {
-    background: transparent;
-    border: 0;
-    position: absolute;
-    right: 0;
-    top: 0.25rem;
   }
 </style>
