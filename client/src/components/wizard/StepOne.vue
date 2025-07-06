@@ -6,7 +6,7 @@
 
     <h1 class="form-title">Seja bem vindo(a)</h1>
 
-    <form class="form-container" @submit.prevent="handleSubmit">
+    <form class="form-container" @submit.prevent="handleSaveData">
       <div class="input-control">
         <label for="email">Endereço de e-mail</label>
         <input v-model="email" type="email" id="email" required />
@@ -14,18 +14,18 @@
 
       <div class="legal-entities-container">
         <div class="entity-container">
-          <input v-model="entity" type="radio" id="natural-person" name="entity">
+          <input v-model="entity" type="radio" id="natural-person" name="entity" value="1" />
           <label for="natural-person">Pessoa física</label>
         </div>
 
         <div class="entity-container">
-          <input v-model="entity" type="radio" id="legal-person" name="entity">
+          <input v-model="entity" type="radio" id="legal-person" name="entity" value="2">
           <label for="legal-person">Pessoa jurídica</label>
         </div>
       </div>
 
       <div class="form-actions">
-        <button type="submit">
+        <button class="btn-primary" type="submit">
           Continuar
         </button>
       </div>
@@ -34,7 +34,7 @@
 </template>
 
 <script setup>
-  import { ref } from 'vue';
+  import { onMounted, ref } from 'vue';
 
   const email = ref("")
   const entity = ref("")
@@ -46,22 +46,28 @@
     }
   })
 
-  const emit = defineEmits(['next'])
+  const emit = defineEmits(['next-step'])
 
-  function nextStep() {
-    //
+  function emitNextStep() {
+    emit('next-step', props.formData.currentStep + 1)
+    props.formData.currentStep += 1
   }
 
-  function handleSubmit() {
-    console.log(email.value)
+  function handleSaveData() {
     // VALIDAR FORMULÁRIO
     // SE TUDO TIVER OK, IR PARA O PROXIMO PASSO
+    props.formData.email = email.value
+    props.formData.entity = entity.value
+    emitNextStep()
   }
+
+  onMounted(() => {
+    email.value = props.formData.email
+    entity.value = props.formData.entity
+  })
 </script>
 
 <style scoped>
-  .form-container {}
-
   .current-step-conteiner {
     margin-bottom: 0.25rem;
   }
@@ -74,24 +80,6 @@
     margin-bottom: 1rem;
   }
 
-  .input-control {
-    margin-bottom: 1rem;
-  }
-
-  .input-control label {
-    font-size: 0.875rem;
-    display: block;
-    margin-bottom: 0.5rem;
-  }
-
-  .input-control input {
-    width: 100%;
-    height: 32px;
-    padding: 0.25rem 0.5rem;
-    border-radius: 4px;
-    border: 1px solid var(--gray-500);
-  }
-
   .legal-entities-container {
     display: flex;
     align-items: center;
@@ -102,27 +90,5 @@
   .entity-container input {
     margin-right: 0.25rem;
     cursor: pointer;
-  }
-
-  .form-actions button {
-    width: 100%;
-    height: 32px;
-    border: 0;
-    background: var(--orange-300);
-    color: var(--white);
-    border-radius: 4px;
-    transition: 0.2s;
-  }
-
-  .form-actions button:active {
-    transform: translateY(2px);
-  }
-
-  .form-actions button:hover {
-    background: var(--orange-500);
-  }
-
-  .btn-disabled {
-    background: var(--orange-200);
   }
 </style>

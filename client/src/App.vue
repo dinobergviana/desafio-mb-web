@@ -1,24 +1,51 @@
 <template>
   <main class="container">
-    <StepFour :form-data="formData" @next="handleNextStep" />
+    <component
+      :is="steps[currentStep]"
+      :form-data="formData"
+      @previous-step="previousStep"
+      @next-step="nextStep"
+    />
   </main>
 </template>
 
 <script setup>
-  import { reactive } from 'vue';
+  import { reactive, ref } from 'vue';
   
   import StepOne from './components/wizard/StepOne.vue'
   import StepTwo from './components/wizard/StepTwo.vue'
   import StepThree from './components/wizard/StepThree.vue'
   import StepFour from './components/wizard/StepFour.vue'
-  import StepFive from './components/wizard/StepFive.vue'
+
+  const steps = [
+    StepOne,
+    StepTwo,
+    StepThree,
+    StepFour
+  ]
+
+  const currentStep = ref(0)
 
   const formData = reactive({
-    email: ""
+    currentStep: 0,
+    email: "",
+    entity: "",
+    name: "",
+    cpf: "",
+    birthDate: "",
+    legalName: "",
+    cnpj: "",
+    openingDate: "",
+    phone: "",
+    password: ""
   })
 
-  function handleNextStep() {
-    console.log(formData)
+  function previousStep(step) {
+    currentStep.value = step
+  }
+
+  function nextStep(step) {
+    currentStep.value = step
   }
 
 </script>

@@ -4,22 +4,25 @@
       <span>Etapa </span><span class="current-step">2</span><span> de 4</span>
     </div>
 
-    <h1 class="form-title">Pessoa Física</h1>
+    <h1 class="form-title">{{ isLegalPerson ? "Pessoa jurídica" : "Pessoa física" }}</h1>
 
-    <form class="form-container" @submit.prevent="handleSubmit">
+    <form class="form-container" @submit.prevent="handleSaveDate">
       <div class="input-control">
-        <label for="name">Nome</label>
-        <input v-model="name" type="name" id="name" required />
+        <label for="name">{{ isLegalPerson ? "Razão social" : "Nome" }}</label>
+        <input v-model="legalName" v-if="isLegalPerson" type="legal-name" id="legal-name" required />
+        <input v-model="name" v-else type="name" id="name" required />
       </div>
 
       <div class="input-control">
-        <label for="name">CPF</label>
-        <input v-model="cpf" type="cpf" id="cpf" required />
+        <label for="name">{{ isLegalPerson ? "CNPJ" : "CPF" }}</label>
+        <input v-model="cnpj" v-if="isLegalPerson" type="cnpj" id="cnpj" required />
+        <input v-model="cpf" v-else type="cpf" id="cpf" required />
       </div>
 
       <div class="input-control">
-        <label for="name">Data de nascimento</label>
-        <input v-model="birthDate" type="birth-date" id="birth-date" required />
+        <label for="name">{{ isLegalPerson ? "Data de abertura" : "Data de nascimento" }}</label>
+        <input v-model="openingDate"  v-if="isLegalPerson" type="opening-date" id="opening-date" required />
+        <input v-model="birthDate" v-else type="birth-date" id="birth-date" required />
       </div>
 
       <div class="input-control">
@@ -28,11 +31,11 @@
       </div>
 
       <div class="form-actions">
-        <button type="button" @click="goBack">
+        <button class="btn-secondary" type="button" @click="emitPreviousStep">
           Voltar
         </button>
 
-        <button type="submit">
+        <button class="btn-primary" type="submit">
           Continuar
         </button>
       </div>
@@ -41,12 +44,7 @@
 </template>
 
 <script setup>
-  import { ref } from 'vue';
-
-  const name = ref("")
-  const cpf = ref("")
-  const birthDate = ref("")
-  const phone = ref("")
+  import { computed, onMounted, ref } from 'vue';
 
   const props = defineProps({
     formData: {
@@ -55,26 +53,62 @@
     }
   })
 
-  const emit = defineEmits(['next'])
+  const emit = defineEmits(["previous-step", "next-step"])
 
-  function nextStep() {
-    //
+  const name = ref("")
+  const cpf = ref("")
+  const birthDate = ref("")
+  const legalName = ref("")
+  const cnpj = ref("")
+  const openingDate = ref("")
+  const phone = ref("")
+
+  const isLegalPerson = computed(() => {
+    return props.formData.entity === "2"
+  })
+
+  function emitNextStep() {
+    emit("next-step", props.formData.currentStep + 1)
+    props.formData.currentStep += 1
   }
 
-  function goBack() {
-    //
+  function emitPreviousStep() {
+    emit("previous-step", props.formData.currentStep - 1)
+    props.formData.currentStep -= 1
   }
 
-  function handleSubmit() {
-    console.log(email.value)
-    // VALIDAR FORMULÁRIO
-    // SE TUDO TIVER OK, IR PARA O PROXIMO PASSO
+  function handleSaveDate() {
+    if (isLegalPerson.value) {
+      props.formData.legalName = legalName.value
+      props.formData.cnpj = cnpj.value
+      props.formData.openingDate = openingDate.value
+    } else {
+      props.formData.name = name.value
+      props.formData.cpf = cpf.value
+      props.formData.birthDate = birthDate.value
+    }
+
+    props.formData.phone = phone.value
+
+    emitNextStep()
   }
+
+  onMounted(() => {
+    if (isLegalPerson.value) {
+      legalName.value = props.formData.legalName
+      cnpj.value = props.formData.cnpj
+      openingDate.value = props.formData.openingDate
+    } else {
+      name.value = props.formData.name
+      cpf.value = props.formData.cpf
+      birthDate.value = props.formData.birthDate
+    }
+
+    phone.value = props.formData.phone
+  })
 </script>
 
 <style scoped>
-  .form-container {}
-
   .current-step-conteiner {
     margin-bottom: 0.25rem;
   }
@@ -84,31 +118,6 @@
   }
 
   .form-title {
-    margin-bottom: 1rem;
-  }
-
-  .input-control {
-    margin-bottom: 1rem;
-  }
-
-  .input-control label {
-    font-size: 0.875rem;
-    display: block;
-    margin-bottom: 0.5rem;
-  }
-
-  .input-control input {
-    width: 100%;
-    height: 32px;
-    padding: 0.25rem 0.5rem;
-    border-radius: 4px;
-    border: 1px solid var(--gray-500);
-  }
-
-  .legal-entities-container {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
     margin-bottom: 1rem;
   }
 
@@ -122,27 +131,5 @@
     align-items: center;
     justify-content: space-between;
     gap: 1rem;
-  }
-
-  .form-actions button {
-    width: 100%;
-    height: 32px;
-    border: 0;
-    background: var(--orange-300);
-    color: var(--white);
-    border-radius: 4px;
-    transition: 0.2s;
-  }
-
-  .form-actions button:active {
-    transform: translateY(2px);
-  }
-
-  .form-actions button:hover {
-    background: var(--orange-500);
-  }
-
-  .btn-disabled {
-    background: var(--orange-200);
   }
 </style>
