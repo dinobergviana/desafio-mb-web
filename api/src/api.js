@@ -1,14 +1,16 @@
 import express from "express"
+import cors from "cors"
 
 const app = express()
 
 app.use(express.json())
+app.use(cors())
 
 const PORT = process.env.PORT || 3000
 
 app.get("/registration", (request, response) => {
   response.json({
-    message: "Registration endpoint is working!",
+    message: "OK!",
     statusCode: 200
   })
 })
@@ -38,10 +40,16 @@ app.post("/registration", (request, response) => {
     })
   }
 
-  response.json({
+  const data = {
+    id: 1, // esse id poderia ser dinamico e gerado por um banco de dados
+    ...request.body
+  }
+
+  response.status(201).json({
     message: "Usuario criado com sucesso!",
+    data,
     statusCode: 201
   })
 })
 
-app.listen(PORT, () => console.log(`Server running on port ${PORT}!`))
+app.listen(PORT, () => console.log(`Servidor rodando na porta ${PORT}!`))
