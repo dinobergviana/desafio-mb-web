@@ -6,20 +6,23 @@
 
     <h1 class="form-title">Seja bem vindo(a)</h1>
 
-    <form class="form-container" @submit.prevent="handleSaveData">
+    <Form class="form-container" @submit="handleSaveData" :validation-schema="schema">
       <div class="input-control">
         <label for="email">Endereço de e-mail</label>
-        <input v-model="email" type="email" id="email" required />
+        <Field v-model="email" type="email" id="email" name="email" />
+        <div class="error-message">
+          <ErrorMessage name="email" />
+        </div>
       </div>
 
       <div class="legal-entities-container">
         <div class="entity-container">
-          <input v-model="entity" type="radio" id="natural-person" name="entity" value="1" />
+          <input v-model="entity" type="radio" id="natural-person" name="entity" :value="1" />
           <label for="natural-person">Pessoa física</label>
         </div>
 
         <div class="entity-container">
-          <input v-model="entity" type="radio" id="legal-person" name="entity" value="2">
+          <input v-model="entity" type="radio" id="legal-person" name="entity" :value="2">
           <label for="legal-person">Pessoa jurídica</label>
         </div>
       </div>
@@ -29,15 +32,18 @@
           Continuar
         </button>
       </div>
-    </form>
+    </Form>
   </section>
 </template>
 
 <script setup>
-  import { onMounted, ref } from 'vue';
+  import { onMounted, ref } from "vue"
+
+  import { Form, Field, ErrorMessage } from "vee-validate"
+  import * as yup from "yup"
 
   const email = ref("")
-  const entity = ref("")
+  const entity = ref(null)
 
   const props = defineProps({
     formData: {
@@ -46,16 +52,18 @@
     }
   })
 
-  const emit = defineEmits(['next-step'])
+  const schema = yup.object({
+    email: yup.string().required("E-mail é um campo obrigatório").email("Informe um e-mail válido"),
+  })
+
+  const emit = defineEmits(["next-step"])
 
   function emitNextStep() {
-    emit('next-step', props.formData.currentStep + 1)
+    emit("next-step", props.formData.currentStep + 1)
     props.formData.currentStep += 1
   }
 
   function handleSaveData() {
-    // VALIDAR FORMULÁRIO
-    // SE TUDO TIVER OK, IR PARA O PROXIMO PASSO
     props.formData.email = email.value
     props.formData.entity = entity.value
     emitNextStep()
@@ -63,7 +71,7 @@
 
   onMounted(() => {
     email.value = props.formData.email
-    entity.value = props.formData.entity
+    entity.value = props.formData.entity || 1
   })
 </script>
 

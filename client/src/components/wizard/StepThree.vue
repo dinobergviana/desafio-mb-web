@@ -6,11 +6,15 @@
 
     <h1 class="form-title">Senha de acesso</h1>
 
-    <form class="form-container" @submit.prevent="handleSaveData">
+    <Form class="form-container" @submit="handleSaveData" :validation-schema="schema">
       <div class="input-control">
         <label for="email">Sua senha</label>
-        <input v-model="password" :type="seePassword ? 'text' : 'password'" id="password" required />
+        <Field v-model="password" :type="seePassword ? 'text' : 'password'" id="password" name="password" />
         <button type="button" class="see-password" @click="handleSeePassword">visualizar</button>
+
+        <div class="error-message">
+          <ErrorMessage name="password" />
+        </div>
       </div>
 
       <div class="form-actions">
@@ -22,18 +26,25 @@
           Continuar
         </button>
       </div>
-    </form>
+    </Form>
   </section>
 </template>
 
 <script setup>
-  import { onMounted, ref } from 'vue';
+  import { onMounted, ref } from "vue"
+
+  import { Form, Field, ErrorMessage } from "vee-validate"
+  import * as yup from "yup"
 
   const props = defineProps({
     formData: {
       type: Object,
       required: true
     }
+  })
+
+  const schema = yup.object({
+    password: yup.string().required("Campo obrigatório").min(6, "A senha deve conter pelo menos 6 caracteres."),
   })
   
   const emit = defineEmits(["previous-step", "next-step"])
@@ -54,8 +65,6 @@
   function handleSaveData() {
     props.formData.password = password.value
     emitNextStep()
-    // VALIDAR FORMULÁRIO
-    // SE TUDO TIVER OK, IR PARA O PROXIMO PASSO
   }
 
   function handleSeePassword() {

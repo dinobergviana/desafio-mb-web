@@ -55,7 +55,7 @@
 </template>
 
 <script setup>
-  import { computed, onMounted, ref } from 'vue';
+  import { computed, ref } from "vue"
 
   const props = defineProps({
     formData: {
@@ -69,7 +69,7 @@
   const seePassword = ref(false)
 
   const isLegalPerson = computed(() => {
-    return props.formData.entity === "2"
+    return props.formData.entity === 2
   })
 
   function emitPreviousStep() {
@@ -78,17 +78,27 @@
   }
 
   function handleSubmit() {
-    // VALIDAR FORMULÁRIO
-    // SE TUDO TIVER OK, IR PARA O PROXIMO PASSO
+    // ENVIAR INFOS PARA O BACK, APOS A REQUISIÇÃO, LIMPAR O OBJETO formData
+    // IR PARA TELA DE SUCESSO COM OPÇÃO DE VOLTAR PARA O INICIO
+
+    setTimeout(() => {
+      props.formData.currentStep = 0
+      props.formData.email = ""
+      props.formData.entity = ""
+      props.formData.name = ""
+      props.formData.cpf = ""
+      props.formData.birthDate = ""
+      props.formData.legalName = ""
+      props.formData.cnpj = ""
+      props.formData.openingDate = ""
+      props.formData.phone = ""
+      props.formData.password = ""
+    }, 3000)
   }
 
   function handleSeePassword() {
     seePassword.value = !seePassword.value
   }
-
-  onMounted(() => {
-    //
-  })
 </script>
 
 <style scoped>
@@ -117,5 +127,9 @@
     position: absolute;
     right: 0;
     top: 0.25rem;
+  }
+
+  .input-control {
+    margin-bottom: 1rem;
   }
 </style>

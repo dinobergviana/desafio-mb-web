@@ -5,6 +5,8 @@
   --orange-300: #f8b538;
   --orange-200: #f8cf85;
 
+  --red-500: #f95353;
+
   --white: #fff;
 }
 
@@ -34,7 +36,6 @@ button {
 }
 
 .input-control {
-  margin-bottom: 1rem;
   position: relative;
 }
 
@@ -70,4 +71,10 @@ button {
   background: transparent;
   color: var(--orange-500);
   border: 1px solid var(--orange-500);
+}
+
+.error-message {
+  color: var(--red-500);
+  font-size: 0.775rem;
+  height: 20px;
 }
