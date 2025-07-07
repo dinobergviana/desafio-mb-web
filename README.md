@@ -7,7 +7,7 @@ Esse projeto é parte do processo de seleção para a vaga de Desenvolvedor Fron
 1. o projeto possui dois diretórios principais:
   - api: é onde se encontra a api e o servidor do sitema feito com Node.js e Express.
   - client: trata-se do frontend da aplicação no estilo SPA.
-2. para que o projeto funcione devidamente, é necessário ter instalado em sua máquina a versão `22.11.0` do Node.
+2. para que o projeto funcione devidamente, é necessário ter instalado em sua máquina uma versão do Node.js a partir da `20.19.0` e até a `22.11.0`.
 
 ### Setup
 1. clone esse repositório em sua máquina de preferência;
