@@ -10,7 +10,6 @@
       :placeholder="placeholder"
       :disabled="disabled"
       v-model="localValue"
-      class="input"
     />
 
     <div v-if="showErrorMessage" class="error-message">

@@ -61,11 +61,11 @@
         placeholder="##/##/####"
       />
 
-      <TextInput
+      <PhoneInput
         v-model="phone"
-        label="Telefone"
-        id="phone"
         name="phone"
+        label="Telefone"
+        placeholder="(99) 99999-9999"
       />
 
       <div class="actions">
@@ -91,6 +91,7 @@
 
   import TextInput from "../TextInput.vue"
   import Button from "../Button.vue"
+  import PhoneInput from "../PhoneInput.vue"
 
   const props = defineProps({
     formData: {
