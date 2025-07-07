@@ -23,8 +23,18 @@ function stepTwoSchema(props) {
           .required("Campo obrigatório")
           .test(
             "valid-date",
-            "Data inválida. Ex. de data válida: 20/01/2000",
+            "Data inválida.",
             (value) => date.validateDate(value)
+          )
+          .test(
+            "not-future-date",
+            "Datas futuras não são permitidas.",
+            (value) => date.checkIsFutureDate(value)
+          )
+          .test(
+            "is-of-age",
+            "É necessário ter pelo menos 18 anos.",
+            (value) => date.checkIsLegalAge(value)
           )
       : false,
     legalName: props.formData.isLegalPerson
@@ -42,6 +52,11 @@ function stepTwoSchema(props) {
           .required("Campo obrigatório")
           .test("valid-date", "Data inválida", (value) =>
             date.validateDate(value)
+          )
+          .test(
+            "not-future-date",
+            "Datas futuras não são permitidas.",
+            (value) => date.checkIsFutureDate(value)
           )
       : false,
     phone: yup

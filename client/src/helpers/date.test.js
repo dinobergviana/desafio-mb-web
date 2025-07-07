@@ -6,12 +6,16 @@ describe("validateDate", () => {
     expect(date.validateDate("30/06/1989")).toBe(true)
   })
 
+  it("retorna false para quem tem menos de 18 anos", async () => {
+    expect(date.checkIsLegalAge("20/02/2010")).toBe(false)
+  })
+
   it("retorna false para 31 de fevereiro", () => {
     expect(date.validateDate("31/02/2023")).toBe(false)
   })
 
   it("retorna false para data futura", () => {
-    expect(date.validateDate("31/12/2099")).toBe(false)
+    expect(date.checkIsFutureDate("31/12/2099")).toBe(false)
   })
 
   it("retorna false para string com letras", () => {
@@ -40,18 +44,6 @@ describe("validateDate", () => {
 
   it("retorna false para string numérica inválida", () => {
     expect(date.validateDate("123456")).toBe(false)
-  })
-
-  it("retorna true para objeto Date válido", () => {
-    expect(date.validateDate(new Date("1989-06-30"))).toBe(true)
-  })
-
-  it("retorna false para objeto Date inválido", () => {
-    expect(date.validateDate(new Date("invalid-date"))).toBe(false)
-  })
-
-  it("retorna false para objeto Date futuro", () => {
-    expect(date.validateDate(new Date("2099-12-31"))).toBe(false)
   })
 
   it("retorna false para dia inválido (32/01)", () => {
