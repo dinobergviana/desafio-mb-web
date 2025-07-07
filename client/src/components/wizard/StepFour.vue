@@ -16,7 +16,7 @@
         v-model="formData.legalName"
         v-if="isLegalPerson"
         label="Razão social"
-        type="legal-name"
+        name="legal-name"
         id="legal-name"
         disabled
         :show-error-message="false"
@@ -27,6 +27,7 @@
         v-else
         label="Nome"
         id="name"
+        name="name"
         disabled
         :show-error-message="false"
       />
@@ -35,6 +36,7 @@
         v-model="formData.cnpj"
         v-if="isLegalPerson"
         label="CNPJ"
+        name="cnpj"
         id="cnpj"
         disabled
         :show-error-message="false"
@@ -44,6 +46,7 @@
         v-model="formData.cpf"
         v-else
         label="CPF"
+        name="cpf"
         id="cpf"
         disabled
         :show-error-message="false"
@@ -53,6 +56,7 @@
         v-model="formData.openingDate"
         v-if="isLegalPerson"
         LABEL="Data de abertura"
+        name="opening-date"
         id="opening-date"
         disabled
         :show-error-message="false"
@@ -62,6 +66,7 @@
         v-model="formData.birthDate"
         v-else
         label="Data de nascimento"
+        name="birth-date"
         id="birth-date"
         disabled
         :show-error-message="false"
@@ -70,6 +75,7 @@
       <TextInput
         v-model="formData.phone"
         label="Telefone"
+        name="phone"
         id="phone"
         disabled
         :show-error-message="false"
