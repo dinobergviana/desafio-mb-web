@@ -1,9 +1,9 @@
 function validatePhoneNumber(value) {
   if (!value) return false
 
-  const digits = value.replace(/\D/g, '')
-  
-  return /^[0-9]{10,11}$/.test(digits)
+  const pattern = /^\(?\d{2}\)?\s?\d{4,5}-?\d{4}$|^\d{10,11}$/
+
+  return pattern.test(value)
 }
 
 const phone = {

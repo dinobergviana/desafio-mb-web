@@ -55,7 +55,7 @@
       <TextInput
         v-model="formData.openingDate"
         v-if="isLegalPerson"
-        LABEL="Data de abertura"
+        label="Data de abertura"
         name="opening-date"
         id="opening-date"
         disabled
