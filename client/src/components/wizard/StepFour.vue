@@ -90,11 +90,11 @@
       />
 
       <div class="actions">
-        <button class="btn-secondary" type="button" @click="emitPreviousStep">
+        <Button variant="btn-secondary" type="button" @click="emitPreviousStep">
           Voltar
-        </button>
+        </Button>
 
-        <button class="btn-primary" type="submit">Cadastrar</button>
+        <Button variant="btn-primary" type="submit">Cadastrar</Button>
       </div>
 
       <div v-if="requestFailed">
@@ -107,27 +107,27 @@
 </template>
 
 <script setup>
-import { useStepFourForm } from "./composables/useStepFourForm.js";
+  import { useStepFourForm } from "./composables/useStepFourForm.js";
 
-import TextInput from "../TextInput.vue";
-import PasswordInput from "../PasswordInput.vue";
+  import TextInput from "../TextInput.vue";
+  import PasswordInput from "../PasswordInput.vue";
+  import Button from "../Button.vue";
 
-const props = defineProps({
-  formData: {
-    type: Object,
-    required: true,
-  },
-});
+  const props = defineProps({
+    formData: {
+      type: Object,
+      required: true,
+    },
+  });
 
-const emit = defineEmits(["previous-step", "next-step"]);
+  const emit = defineEmits(["previous-step", "next-step"]);
 
-const {
-  requestFailed,
-  isLegalPerson,
-  handleSeePassword,
-  handleSubmit,
-  emitPreviousStep,
-} = useStepFourForm(props.formData, emit);
+  const {
+    requestFailed,
+    isLegalPerson,
+    handleSubmit,
+    emitPreviousStep,
+  } = useStepFourForm(props.formData, emit);
 </script>
 
 <style scoped>

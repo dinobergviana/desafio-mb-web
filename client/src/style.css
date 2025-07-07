@@ -65,6 +65,11 @@ button {
 
 .btn-secondary {
   background: transparent;
+  color: var(--orange-300);
+  border: 1px solid var(--orange-300);
+}
+
+.btn-secondary:hover {
   color: var(--orange-500);
   border: 1px solid var(--orange-500);
 }

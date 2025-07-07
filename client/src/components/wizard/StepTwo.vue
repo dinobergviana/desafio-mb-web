@@ -69,13 +69,13 @@
       />
 
       <div class="actions">
-        <button class="btn-secondary" type="button" @click="handlePreviousStep">
+        <Button variant="btn-secondary" type="button" @click="handlePreviousStep">
           Voltar
-        </button>
+        </Button>
 
-        <button class="btn-primary" type="submit">
+        <Button variant="btn-primary" type="submit">
           Continuar
-        </button>
+        </Button>
       </div>
     </Form>
   </section>
@@ -90,6 +90,7 @@
   import { useStepTwoForm } from "./composables/useStepTwoForm.js"
 
   import TextInput from "../TextInput.vue"
+  import Button from "../Button.vue"
 
   const props = defineProps({
     formData: {

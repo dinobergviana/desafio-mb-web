@@ -28,9 +28,9 @@
       </div>
 
       <div class="actions">
-        <button class="btn-primary" type="submit">
+        <Button class="btn-primary" type="submit">
           Continuar
-        </button>
+        </Button>
       </div>
     </Form>
   </section>
@@ -40,6 +40,8 @@
   import { onMounted } from "vue"
   import { Form, Field, ErrorMessage } from "vee-validate"
   import { useStepOneForm } from "./composables/useStepOneForm.js"
+
+  import Button from "../Button.vue"
 
   const props = defineProps({
     formData: {
