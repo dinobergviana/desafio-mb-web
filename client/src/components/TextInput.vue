@@ -19,24 +19,24 @@
 </template>
 
 <script setup>
-import { Field, ErrorMessage } from 'vee-validate'
-import { computed } from 'vue'
+  import { Field, ErrorMessage } from 'vee-validate'
+  import { computed } from 'vue'
 
-const props = defineProps({
-  name: { type: String, required: true },
-  label: { type: String, required: true },
-  placeholder: { type: String, default: '' },
-  type: { type: String, default: 'text' },
-  modelValue: [String, Number],
-  id: { type: String, default: '' },
-  disabled: { type: Boolean, default: false },
-  showErrorMessage: { type: Boolean, default: true }
-})
+  const props = defineProps({
+    name: { type: String, required: true },
+    label: { type: String, required: true },
+    placeholder: { type: String, default: '' },
+    type: { type: String, default: 'text' },
+    modelValue: [String, Number],
+    id: { type: String, default: '' },
+    disabled: { type: Boolean, default: false },
+    showErrorMessage: { type: Boolean, default: true }
+  })
 
-const emit = defineEmits(['update:modelValue'])
+  const emit = defineEmits(['update:modelValue'])
 
-const localValue = computed({
-  get: () => props.modelValue,
-  set: (val) => emit('update:modelValue', val)
-})
+  const localValue = computed({
+    get: () => props.modelValue,
+    set: (val) => emit('update:modelValue', val)
+  })
 </script>

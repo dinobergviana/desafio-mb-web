@@ -46,15 +46,15 @@
 </script>
 
 <style scoped>
-.password-container {
-  position: relative;
-}
+  .password-container {
+    position: relative;
+  }
 
-.see-password {
-  background: transparent;
-  border: 0;
-  position: absolute;
-  right: 0;
-  top: 0.25rem;
-}
+  .see-password {
+    background: transparent;
+    border: 0;
+    position: absolute;
+    right: 0;
+    top: 0.25rem;
+  }
 </style>
