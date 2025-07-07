@@ -1,7 +1,7 @@
 import * as yup from "yup";
 
-import date from "../helpers/date.js";
-import phoneNumber from "../helpers/phone.js";
+import date from "../../../helpers/date.js";
+import phoneNumber from "../../../helpers/phone.js";
 
 const cpfRegex = /^\d{3}\.\d{3}\.\d{3}\-\d{2}$|^\d{11}$/;
 const cnpjRegex = /^\d{2}\.\d{3}\.\d{3}\/\d{4}\-\d{2}$|^\d{14}$/;

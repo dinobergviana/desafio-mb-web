@@ -54,7 +54,7 @@
 
 <style scoped>
   .container {
-    width: min(90vw, 300px);
+    width: min(90vw, 312px);
     padding: 1rem;
     margin: 0 auto;
   }
